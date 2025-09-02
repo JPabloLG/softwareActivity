@@ -1,7 +1,6 @@
 package uniquindio.edu.co.Model;
 
 public class Rating {
-
     private int id;
     private int rate;
     private User user;

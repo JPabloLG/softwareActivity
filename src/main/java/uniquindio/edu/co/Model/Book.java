@@ -8,9 +8,8 @@ public class Book {
     private String title;
     private String author;
     private String isbn;
-    private ArrayList<String> reviews;
+    private ArrayList<Rating> rates;
     private int averageRate;
-    private ArrayList<Integer> rates;
 
     public Book(String author, String isbn, String title, int averageRate) {
         this.author = author;
@@ -27,11 +26,11 @@ public class Book {
         this.id = id;
     }
 
-    public ArrayList<Integer> getRates() {
+    public ArrayList<Rating> getRates() {
         return rates;
     }
 
-    public void setRates(ArrayList<Integer> rates) {
+    public void setRates(ArrayList<Rating> rates) {
         this.rates = rates;
     }
 
@@ -41,14 +40,6 @@ public class Book {
 
     public void setAverageRate(int averageRate) {
         this.averageRate = averageRate;
-    }
-
-    public ArrayList<String> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(ArrayList<String> reviews) {
-        this.reviews = reviews;
     }
 
     public String getAuthor() {
@@ -82,7 +73,6 @@ public class Book {
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", isbn='" + isbn + '\'' +
-                ", reviews=" + reviews +
                 ", averageRate=" + averageRate +
                 ", rates=" + rates +
                 '}';

@@ -1,6 +1,10 @@
 package uniquindio.edu.co.Model;
 
-import java.lang.reflect.Array;
+import uniquindio.edu.co.DB.JDBC;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Library {
@@ -50,11 +54,53 @@ public class Library {
         books.add(book);
     }
 
-    public void searchBook(String searchName) {
+    public void searchBook(String search) {
+        ArrayList<Book> searchedBooks = new ArrayList<>();
         for (Book b : books) {
-            //if (b.getTitle().equals(books.getTitle())) {
-
+            if (b.getTitle().equals(search)||b.getAuthor().equals(search)) {
+                searchedBooks.add(b);
             }
+        }
+        System.out.println(searchedBooks);
+    }
+
+    public void rateBook(User user, Book book, int rating){
+        if(rating < 1 || rating > 5){
+            System.out.println("Por favor califique correctamente");
+        }
+
+        if(book.getRates() == null) {
+            book.setRates(new ArrayList<>());
+        }
+        Rating rat = new Rating(rating, user, book);
+        book.getRates().add(rat);
+
+        int s = 0;
+        for(Rating r : book.getRates()){
+            s += r.getRate();
+        }
+        int average = s / book.getRates().size();
+        book.setAverageRate(average);
+
+
+        saveRatingToDatabase(rat);
+    }
+
+    private void saveRatingToDatabase(Rating rating) {
+        String sql = "INSERT INTO ratings (user_id, book_id, rate) VALUES (?, ?, ?)";
+
+        try (Connection conn = JDBC.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, rating.getUser().getId());
+            stmt.setInt(2, rating.getBook().getId());
+            stmt.setInt(3, rating.getRate());
+
+            stmt.executeUpdate();
+            System.out.println("Rating guardado en la BD con éxito.");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

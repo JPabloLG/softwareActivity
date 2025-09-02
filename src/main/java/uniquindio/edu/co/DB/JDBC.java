@@ -52,35 +52,7 @@ public class JDBC {
         return connection;
     }
 
-    public static List<Book> searchBook(String search) {
-        List<Book> searchedBooks = new ArrayList<>();
-        String sql = "SELECT * FROM books WHERE title = ? OR author = ?";
 
-        try (Connection conn = JDBC.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, search);
-            stmt.setString(2, search);
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Book book = new Book(
-                        rs.getString("title"),
-                        rs.getString("author"),
-                        rs.getString("isbn"),
-                        rs.getInt("averageRate")
-                );
-                searchedBooks.add(book);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        // Mostrar resultados
-        for (Book b : searchedBooks) {
-            System.out.println(b.getTitle() + " - " + b.getAuthor());
-        }
-        return searchedBooks;
-    }
 
     public static class TestConnection {
         public static void main(String[] args) {

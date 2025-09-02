@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Library {
 
@@ -64,6 +65,17 @@ public class Library {
         System.out.println(searchedBooks);
     }
 
+    public ArrayList<Book> searchBookAll(String author, String title, String isbn) {
+        return this.books.stream()
+                .filter(book -> author == null || book.getAuthor().equalsIgnoreCase(author))
+                .filter(book -> title==null || book.getTitle().toLowerCase().contains(title.toLowerCase()))
+                .filter(book -> isbn == null || book.getIsbn().equals(isbn))
+                .collect(Collectors.toCollection(ArrayList::new));
+
+
+    }
+
+
     public void rateBook(User user, Book book, int rating){
         if(rating < 1 || rating > 5){
             System.out.println("Por favor califique correctamente");
@@ -81,7 +93,6 @@ public class Library {
         }
         int average = s / book.getRates().size();
         book.setAverageRate(average);
-
 
         saveRatingToDatabase(rat);
     }

@@ -11,10 +11,10 @@ public class Book {
     private ArrayList<Rating> rates;
     private int averageRate;
 
-    public Book(String author, String isbn, String title, int averageRate) {
+    public Book(String title, String author, String isbn, int averageRate) {
+        this.title = title;
         this.author = author;
         this.isbn = isbn;
-        this.title = title;
         this.averageRate = averageRate;
     }
 
@@ -74,7 +74,6 @@ public class Book {
                 ", author='" + author + '\'' +
                 ", isbn='" + isbn + '\'' +
                 ", averageRate=" + averageRate +
-                ", rates=" + rates +
                 '}';
     }
 }
